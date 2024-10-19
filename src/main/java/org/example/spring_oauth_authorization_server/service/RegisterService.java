@@ -25,7 +25,7 @@ public class RegisterService {
 		RegisterEntity registerEntity = RegisterEntity.builder()
 			.id(UUID.randomUUID().toString())
 			.clientId(UUID.randomUUID().toString())
-			.clientSecret(bCryptPasswordEncoder.encode(UUID.randomUUID().toString()))
+			.clientSecret(bCryptPasswordEncoder.encode(registerRequest.clientSecret()))
 			.clientAuthenticationMethods("client_secret_basic")
 			.authorizationGrantTypes("refres_token,authorization_code")
 			.clientName(registerRequest.clientName())
