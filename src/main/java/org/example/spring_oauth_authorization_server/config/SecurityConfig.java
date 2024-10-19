@@ -75,15 +75,6 @@ public class SecurityConfig {
 	public AuthorizationServerSettings authorizationServerSettings() {
 
 		return AuthorizationServerSettings.builder()
-			.issuer("http://localhost:9000")
-			.authorizationEndpoint("/oauth2/v1/authorize")
-			.tokenEndpoint("/oauth2/v1/token")
-			.tokenIntrospectionEndpoint("/oauth2/v1/introspect") // 토큰 상태
-			.tokenRevocationEndpoint("/oauth2/v1/revoke") // 토큰 폐기 RFC 7009
-			.jwkSetEndpoint("/oauth2/v1/jwks") // 공개키 확인
-			.oidcLogoutEndpoint("/connect/v1/logout")
-			.oidcUserInfoEndpoint("/connect/v1/userinfo") // 리소스 서버 유저 정보 연관
-			.oidcClientRegistrationEndpoint("/connect/v1/register") // OAuth2 사용 신청
 			.build();
 	}
 
