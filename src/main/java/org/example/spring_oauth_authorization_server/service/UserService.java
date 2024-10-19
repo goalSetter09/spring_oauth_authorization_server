@@ -18,6 +18,7 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	@Transactional
 	public void JoinUser(UserJoinRequest userJoinRequest) {
 		UserEntity userEntity = UserEntity.builder()
 			.username(userJoinRequest.username())

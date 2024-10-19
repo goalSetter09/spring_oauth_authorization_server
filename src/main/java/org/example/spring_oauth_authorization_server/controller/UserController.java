@@ -5,6 +5,7 @@ import org.example.spring_oauth_authorization_server.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,7 @@ public class UserController {
 	}
 
 	@PostMapping("/join")
+	@ResponseBody
 	public String join(UserJoinRequest userJoinRequest) {
 
 		userService.JoinUser(userJoinRequest);
