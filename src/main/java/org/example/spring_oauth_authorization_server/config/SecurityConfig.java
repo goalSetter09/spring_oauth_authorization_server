@@ -2,6 +2,12 @@ package org.example.spring_oauth_authorization_server.config;
 
 import static org.springframework.security.config.Customizer.*;
 
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.util.UUID;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -16,6 +22,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
+
 @Configuration
 public class SecurityConfig {
 
@@ -24,25 +35,25 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	// @Bean
-	// @Order(Ordered.HIGHEST_PRECEDENCE)
-	// public SecurityFilterChain authorizationServer(HttpSecurity http) throws Exception {
-	//
-	// 	OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-	//
-	// 	http
-	// 		.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-	// 		.oidc(withDefaults());
-	// 	http
-	// 		.exceptionHandling((exceptions) -> exceptions
-	// 			.defaultAuthenticationEntryPointFor(
-	// 				new LoginUrlAuthenticationEntryPoint("/login"),
-	// 				new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-	// 			)
-	// 		);
-	//
-	// 	return http.build();
-	// }
+	@Bean
+	@Order(Ordered.HIGHEST_PRECEDENCE)
+	public SecurityFilterChain authorizationServer(HttpSecurity http) throws Exception {
+
+		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+
+		http
+			.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+			.oidc(withDefaults());
+		http
+			.exceptionHandling((exceptions) -> exceptions
+				.defaultAuthenticationEntryPointFor(
+					new LoginUrlAuthenticationEntryPoint("/login"),
+					new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
+				)
+			);
+
+		return http.build();
+	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -74,5 +85,30 @@ public class SecurityConfig {
 			.oidcUserInfoEndpoint("/connect/v1/userinfo") // 리소스 서버 유저 정보 연관
 			.oidcClientRegistrationEndpoint("/connect/v1/register") // OAuth2 사용 신청
 			.build();
+	}
+
+	@Bean
+	public JWKSource<SecurityContext> jwkSource() {
+		KeyPair keyPair = generateRsaKey();
+		RSAPublicKey publicKey = (RSAPublicKey)keyPair.getPublic();
+		RSAPrivateKey privateKey = (RSAPrivateKey)keyPair.getPrivate();
+		RSAKey rsaKey = new RSAKey.Builder(publicKey).privateKey(privateKey)
+			.keyID(UUID.randomUUID().toString())
+			.build();
+		JWKSet jwkSet = new JWKSet(rsaKey);
+
+		return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+	}
+
+	private static KeyPair generateRsaKey() {
+		KeyPair keyPair;
+		try {
+			KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+			keyPairGenerator.initialize(2048);
+			keyPair = keyPairGenerator.generateKeyPair();
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
+		return keyPair;
 	}
 }
