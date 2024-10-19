@@ -20,20 +20,20 @@ public class AuthorizationEntity {
 	private String registeredClientId;
 	private String principalName;
 	private String authorizationGrantType;
-	@Column(length = 1000)
+	@Column(columnDefinition = "TEXT")
 	private String authorizedScopes;
-	@Column(length = 4000)
+	@Column(columnDefinition = "TEXT")
 	private String attributes;
 	@Column(length = 500)
 	private String state;
 
-	@Column(length = 4000)
+	@Column(columnDefinition = "TEXT")
 	private String authorizationCodeValue;
 	private Instant authorizationCodeIssuedAt;
 	private Instant authorizationCodeExpiresAt;
 	private String authorizationCodeMetadata;
 
-	@Column(length = 4000)
+	@Column(columnDefinition = "TEXT")
 	private String accessTokenValue;
 	private Instant accessTokenIssuedAt;
 	private Instant accessTokenExpiresAt;
@@ -43,14 +43,14 @@ public class AuthorizationEntity {
 	@Column(length = 1000)
 	private String accessTokenScopes;
 
-	@Column(length = 4000)
+	@Column(columnDefinition = "TEXT")
 	private String refreshTokenValue;
 	private Instant refreshTokenIssuedAt;
 	private Instant refreshTokenExpiresAt;
 	@Column(length = 2000)
 	private String refreshTokenMetadata;
 
-	@Column(length = 4000)
+	@Column(columnDefinition = "TEXT")
 	private String oidcIdTokenValue;
 	private Instant oidcIdTokenIssuedAt;
 	private Instant oidcIdTokenExpiresAt;
@@ -59,14 +59,14 @@ public class AuthorizationEntity {
 	@Column(length = 2000)
 	private String oidcIdTokenClaims;
 
-	@Column(length = 4000)
+	@Column(columnDefinition = "TEXT")
 	private String userCodeValue;
 	private Instant userCodeIssuedAt;
 	private Instant userCodeExpiresAt;
 	@Column(length = 2000)
 	private String userCodeMetadata;
 
-	@Column(length = 4000)
+	@Column(columnDefinition = "TEXT")
 	private String deviceCodeValue;
 	private Instant deviceCodeIssuedAt;
 	private Instant deviceCodeExpiresAt;
