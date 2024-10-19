@@ -24,25 +24,25 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	public SecurityFilterChain authorizationServer(HttpSecurity http) throws Exception {
-
-		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-
-		http
-			.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-			.oidc(withDefaults());
-		http
-			.exceptionHandling((exceptions) -> exceptions
-				.defaultAuthenticationEntryPointFor(
-					new LoginUrlAuthenticationEntryPoint("/login"),
-					new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-				)
-			);
-
-		return http.build();
-	}
+	// @Bean
+	// @Order(Ordered.HIGHEST_PRECEDENCE)
+	// public SecurityFilterChain authorizationServer(HttpSecurity http) throws Exception {
+	//
+	// 	OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+	//
+	// 	http
+	// 		.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+	// 		.oidc(withDefaults());
+	// 	http
+	// 		.exceptionHandling((exceptions) -> exceptions
+	// 			.defaultAuthenticationEntryPointFor(
+	// 				new LoginUrlAuthenticationEntryPoint("/login"),
+	// 				new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
+	// 			)
+	// 		);
+	//
+	// 	return http.build();
+	// }
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
