@@ -1,4 +1,4 @@
-package org.example.spring_oauth_authorization_server.service;
+package org.example.spring_oauth_authorization_server.oauth2;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
